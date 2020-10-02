@@ -25,4 +25,6 @@ var vm = new Vue({
 })
 ```
 
+Во vue есть встроенная поддержка typescript
+
 https://ru.vuejs.org/v2/guide/
