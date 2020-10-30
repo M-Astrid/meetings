@@ -1,4 +1,3 @@
-
 #### Methods:
 
 ##### table
@@ -185,7 +184,6 @@ response:
 
     HTTP/1.1 403 Forbidden
        Content-Type: application/problem+json
-       Content-Language: en
     
        {
         "type": "https://example.com/table-access-denied",
@@ -209,3 +207,35 @@ response:
     
 RFC:
 https://tools.ietf.org/html/rfc7807
+
+
+
+#### Database:
+
+**table**
+
+    title
+    user_id
+
+**cell**
+
+    table_id
+    x
+    y
+    val
+    
+**user**
+
+    id
+    ...
+
+#### Front-end:
+
+> нам известны крайние координаты области, которая у нас в памяти на стороне клиента
+> когда мы достигаем приближаемся к краю области (координата крайней точки минус заданная величина) 
+    
+    1) идет запрос get подгружающий ячейки
+	2) если (х2 - х1) > max_length or (y1 - y2) > max_length область хранимая в памяти подрезается
+
+
+   
