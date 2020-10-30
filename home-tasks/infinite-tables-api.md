@@ -8,7 +8,8 @@ request:
 POST /table/create
 
     {
-        "title": "tableTitle"
+        "title": "tableTitle",
+        "user_id": "user_id"
     }
 
 response:
