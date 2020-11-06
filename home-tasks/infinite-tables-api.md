@@ -5,11 +5,10 @@
 ###### table.create
 
 request:  
-POST /table/create
+POST users/{userId}/tables
 
     {
-        "title": "tableTitle",
-        "user_id": "user_id"
+        "title": "tableTitle"
     }
 
 response:
@@ -17,11 +16,9 @@ response:
     HTTP/1.1 200 OK
     Content-Type: application/json
 
-    [
-        {
-            "id": 2
-        }
-    ]
+    {
+        "id": 2
+    }
 
 ###### table.getById
 
@@ -40,7 +37,7 @@ response:
 ###### table.getByUser
 
 request:  
-GET /{userId}/tables
+GET users/{userId}/tables
 
 response:
 
@@ -48,16 +45,15 @@ response:
     Content-Type: application/json
 
     {
-        "title": 2
+        "title": "title"
     }
     
 ###### table.update
 
 request:  
-POST /table/update
+PUT /tables/{id}
 
     {
-        "id": 2,
         "title": "tableTitle"
     }
 
@@ -73,11 +69,7 @@ response:
 ###### table.delete
 
 request:  
-POST /table/delete
-
-    {
-        "id": 2
-    }
+DELETE /table/{id}
 
 response:
 
@@ -89,12 +81,7 @@ response:
 ###### cell.get
 
 request:
-GET /cell/get
-
-    {
-        "tableId": 232,
-        "range": "0,0:4,3"
-    }
+GET tables/{id}/cells?range=0,0:4,3
     
 response:
 
@@ -104,46 +91,37 @@ response:
     {
         "range": "0,0:4,3"
         "values":[
-            [1, 3, null, 3],
-            [1, 6, 17, 3],
-            [8, -1, 4, 156],
+            {
+                x: 0,
+                y: 0,
+                value: null,
+            },
+            {
+                x: 0,
+                y: 1,
+                value: 1234,
+            },
         ]
     }
     
 ###### cell.update
 
 request:
-GET /cell/update
+PUT tables/{id}/cells
 
     {
-        "tableId": 232,
-        "range": range string (e.g. "0,0:4,3") or single cell "0,0"
+        "range": 0,0:4,3
     }
     
 response:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
-
-    {
-        "range": "0,0:4,3"
-        "values":[
-            [1, 3, null, 3],
-            [1, 6, 17, 3],
-            [8, -1, 4, 156],
-        ]
-    }
 
 ###### cells.operations.sum
 
 request:
-GET /cells/operations/sum
-
-    {
-        "tableId": 232,
-        "dimension": "row",         
-        "range": "4,3:135008,3",
-    }
+GET tables/{id}/cells/operations/sum?dimension=row&range=4,3:135008,3
     
 response:
 
@@ -151,21 +129,13 @@ response:
     Content-Type: application/json
 
     {
-        "range": "4,3:135008,3",
-        "dimension": "row", 
         "value": 47135008,
     }
 
 ###### cells.operations.percentile
 
 request:
-GET /cells/operations/percentile
-
-    {
-        "tableId": 232,
-        "dimension": "col",       
-        "range": "1,1:null",
-    }
+GET tables/{id}/cells/operations/percentile?dimension=col&range=4,3:135008,3
     
 response:
 
@@ -173,8 +143,6 @@ response:
     Content-Type: application/json
 
     {
-        "dimension": "col",       
-        "range": "1,1:5",
         "value": [100%, 56%, 14%, 56%, 14%, 98%]
     }
 
@@ -189,7 +157,7 @@ response:
        {
         "type": "https://example.com/table-access-denied",
         "title": "Table doesn't exist or you don't have access rights.",
-        "detail": "Your current balance is 30, but that costs 50.",
+        "detail": "Problem detail.",
         "user": 1355825
        }
 
