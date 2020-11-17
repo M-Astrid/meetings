@@ -277,6 +277,7 @@ response:
 RFC:
 https://tools.ietf.org/html/rfc7807 Problem Details for HTTP APIs
 https://tools.ietf.org/html/rfc6648 Deprecating "X-"
+https://tools.ietf.org/html/rfc7519 JSON Web Token (JWT)
 
 
 #### Database:
