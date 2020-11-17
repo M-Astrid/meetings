@@ -1,29 +1,118 @@
 #### Methods:
 
-##### table
+##### auth
 
-###### table.create
-
-request:  
-POST users/{userId}/tables
+###### login
+Request
+POST /auth/login
+Header: Content-Type: application/json
 
     {
-        "title": "tableTitle"
+        "username": "username",
+        "password": "password"
+    }
+    
+response:
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    
+    {
+        "id": 1,
+        "token": "token"
+    }
+
+###### logout
+
+request:
+POST /auth/logout
+Role: admin, user
+Header: Auth-Token: token
+
+response:
+
+    HTTP/1.1 200 OK
+
+##### users
+
+###### users.create
+request:
+POST /users
+Role: admin
+Header: Auth-Token: token
+
+    {
+        "username": "username",
+        "password": "password"
+    }
+
+response:
+
+    HTTP/1.1 201 Created
+    Content-Type: application/json
+    
+        {
+            "id": 2
+        }
+
+
+###### users.edit
+
+request:
+PUT /users/{id}
+Role: admin
+Header: Auth-Token: token
+
+    {
+        "username": "username",
+        "password": "password"
     }
 
 response:
 
     HTTP/1.1 200 OK
     Content-Type: application/json
+    
+        {
+            "id": 2
+        }
+
+
+###### users.delete
+
+request:
+DELETE /users/{id}
+Role: admin
+Header: Auth-Token: token
+
+##### sheets
+
+###### sheet.create
+
+request:  
+POST users/{id}/sheets
+Role: admin, user
+Header: Auth-Token: token
+
+    {
+        "title": "title"
+    }
+
+response:
+
+    HTTP/1.1 201 Created
+    Content-Type: application/json
 
     {
         "id": 2
     }
 
-###### table.getById
+###### sheet.getById
 
 request:  
-GET /table/{id}
+GET /sheet/{id}
+Role: admin, user
+Header: Auth-Token: token
 
 response:
 
@@ -34,10 +123,12 @@ response:
         "title": 2
     }
     
-###### table.getByUser
+###### sheet.getByUser
 
 request:  
-GET users/{userId}/tables
+GET users/{id}/sheets
+Role: admin, user
+Header: Auth-Token: token
 
 response:
 
@@ -48,13 +139,15 @@ response:
         "title": "title"
     }
     
-###### table.update
+###### sheet.update
 
 request:  
-PUT /tables/{id}
+PUT /sheets/{id}
+Role: admin, user
+Header: Auth-Token: token
 
     {
-        "title": "tableTitle"
+        "title": "title"
     }
 
 response:
@@ -66,10 +159,12 @@ response:
         "id": 2
     }
 
-###### table.delete
+###### sheet.delete
 
 request:  
-DELETE /table/{id}
+DELETE /sheet/{id}
+Role: admin, user
+Header: Auth-Token: token
 
 response:
 
@@ -81,7 +176,9 @@ response:
 ###### cell.get
 
 request:
-GET tables/{id}/cells?range=0,0:4,3
+GET sheets/{id}/cells?range=A0:D3
+Role: admin, user
+Header: Auth-Token: token
     
 response:
 
@@ -89,28 +186,26 @@ response:
     Content-Type: application/json
 
     {
-        "range": "0,0:4,3"
-        "values":[
-            {
-                x: 0,
-                y: 0,
-                value: null,
-            },
-            {
-                x: 0,
-                y: 1,
-                value: 1234,
-            },
-        ]
+            [
+                {
+                    "col": A,
+                    "row": 0,
+                    "value": 1234,
+                },
+            ]
     }
     
 ###### cell.update
 
 request:
-PUT tables/{id}/cells
+PUT sheets/{id}/cells
+Role: admin, user
+Header: Auth-Token: token
 
     {
-        "range": 0,0:4,3
+        "col": A,
+        "row": 0,
+        "value": 1234,
     }
     
 response:
@@ -121,7 +216,9 @@ response:
 ###### cells.operations.sum
 
 request:
-GET tables/{id}/cells/operations/sum?dimension=row&range=4,3:135008,3
+GET sheets/{id}/cells/operations/sum?dimension=row&start=A0&offset=10
+Role: admin, user
+Header: Auth-Token: token
     
 response:
 
@@ -135,7 +232,10 @@ response:
 ###### cells.operations.percentile
 
 request:
-GET tables/{id}/cells/operations/percentile?dimension=col&range=4,3:135008,3
+GET sheets/{id}/cells/operations/percentile?col=A&percent=80
+GET sheets/{id}/cells/operations/percentile?row=10&percent=80
+Role: admin, user
+Header: Auth-Token: token
     
 response:
 
@@ -143,7 +243,7 @@ response:
     Content-Type: application/json
 
     {
-        "value": [100%, 56%, 14%, 56%, 14%, 98%]
+        "value": 1234 
     }
 
 
@@ -156,7 +256,7 @@ response:
     
        {
         "type": "https://example.com/table-access-denied",
-        "title": "Table doesn't exist or you don't have access rights.",
+        "title": "Sheet doesn't exist or you don't have access rights.",
         "detail": "Problem detail.",
         "user": 1355825
        }
@@ -175,28 +275,29 @@ response:
        }
     
 RFC:
-https://tools.ietf.org/html/rfc7807
-
+https://tools.ietf.org/html/rfc7807 Problem Details for HTTP APIs
+https://tools.ietf.org/html/rfc6648 Deprecating "X-"
 
 
 #### Database:
 
-**table**
+**sheet**
 
     title
     user_id
 
 **cell**
 
-    table_id
-    x
-    y
-    val
+    sheet_id
+    col
+    row
+    value
     
 **user**
 
     id
-    ...
+    username
+    password
 
 #### Front-end:
 
