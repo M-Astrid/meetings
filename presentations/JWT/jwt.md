@@ -28,6 +28,22 @@ JWT состоит из трех частей: заголовок **header**, п
         "ip": "176.50.104.57",
         "exp": 1605874010
     }
+    
+###### signature
+   
+Подпись вычисляется с использование следующего псевдо-кода:
+
+
+    const SECRET_KEY = 'cAtwa1kkEy'
+    const unsignedToken = base64urlEncode(header) + '.' + base64urlEncode(payload)
+    const signature = HMAC-SHA256(unsignedToken, SECRET_KEY)
+
+Алгоритм base64url кодирует хедер и payload, созданные на 1 и 2 шаге. Алгоритм соединяет закодированные строки через точку. Затем полученная строка хешируется алгоритмом, заданным в хедере на основе нашего секретного ключа.
+
+
+    header eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+    payload eyJ1c2VySWQiOiJiMDhmODZhZi0zNWRhLTQ4ZjItOGZhYi1jZWYzOTA0NjYwYmQifQ
+    signature -xN_h82PHVTCMA9vdoHrcZxH-x5mb11y1537t3rGzcM
 
 
 >Поскольку JWT только лишь закодирована и подписана, и поскольку JWT не зашифрована, JWT не гарантирует никакой безопасности для чувствительных (sensitive) данных.
