@@ -35,4 +35,6 @@
 выбирать хорошо известные и проверенные библиотеки для работы с JWT;
 всегда валидировать и санитизировать полученные от пользователя данные.
 
+источники:
+https://habr.com/ru/post/340146/
 https://cyberpolygon.com/ru/materials/security-of-json-web-tokens-jwt/

@@ -18,8 +18,27 @@ response:
     Content-Type: application/json
     
     {
-        "id": 1,
-        "token": "token"
+        "token": "token",
+        "refresh_token": "refresh_token"
+    }
+
+###### refresh token
+Request
+POST /auth/token/refresh
+Header: Content-Type: application/json
+
+    {
+        "refresh_token": "refresh_token"
+    }
+    
+response:
+
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    
+    {
+        "token": "token",
+        "refresh_token": "refresh_token"
     }
 
 ###### logout
@@ -27,7 +46,7 @@ response:
 request:
 POST /auth/logout
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
 
 response:
 
@@ -39,7 +58,7 @@ response:
 request:
 POST /users
 Role: admin
-Header: Auth-Token: token
+Authorization: Bearer token
 
     {
         "username": "username",
@@ -61,7 +80,7 @@ response:
 request:
 PUT /users/{id}
 Role: admin
-Header: Auth-Token: token
+Authorization: Bearer token
 
     {
         "username": "username",
@@ -83,7 +102,7 @@ response:
 request:
 DELETE /users/{id}
 Role: admin
-Header: Auth-Token: token
+Authorization: Bearer token
 
 ##### sheets
 
@@ -92,7 +111,7 @@ Header: Auth-Token: token
 request:  
 POST users/{id}/sheets
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
 
     {
         "title": "title"
@@ -112,7 +131,7 @@ response:
 request:  
 GET /sheet/{id}
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
 
 response:
 
@@ -128,7 +147,7 @@ response:
 request:  
 GET users/{id}/sheets
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
 
 response:
 
@@ -144,7 +163,7 @@ response:
 request:  
 PUT /sheets/{id}
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
 
     {
         "title": "title"
@@ -164,7 +183,7 @@ response:
 request:  
 DELETE /sheet/{id}
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
 
 response:
 
@@ -178,7 +197,7 @@ response:
 request:
 GET sheets/{id}/cells?range=A0:D3
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
     
 response:
 
@@ -200,7 +219,7 @@ response:
 request:
 PUT sheets/{id}/cells
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
 
     {
         "col": A,
@@ -218,7 +237,7 @@ response:
 request:
 GET sheets/{id}/cells/operations/sum?dimension=row&start=A0&offset=10
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
     
 response:
 
@@ -235,7 +254,7 @@ request:
 GET sheets/{id}/cells/operations/percentile?col=A&percent=80
 GET sheets/{id}/cells/operations/percentile?row=10&percent=80
 Role: admin, user
-Header: Auth-Token: token
+Authorization: Bearer token
     
 response:
 
